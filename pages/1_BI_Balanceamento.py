@@ -59,7 +59,7 @@ if selected == "Balanceamento":
     Area_Selecionada = st.selectbox("Area_Picking:",df2["area_picking"].unique())
     df2 = df2[(df2["area_picking"] == Area_Selecionada)] 
 
-    #executar a select para pegar o desvio médio entre estaçoes 123
+    #executar a select para pegar o desvio médio entre estaçoes
     sql4 = "select cast(avg(abs(desvio_ideal_acessos_estacao_com_desviador)) as decimal(5,2)) as desvio_medio from vw_base_acessos_area_picking where area_picking = '"+Area_Selecionada+"'"
     df4 = pd.read_sql(sql4,conn)
     st.write("Desvio médio entre estações: " + str(df4["desvio_medio"].values[0]))
