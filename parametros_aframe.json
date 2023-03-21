@@ -1,0 +1,12 @@
+{
+    "custo_funcionario": "3000",
+    "produtividade_manual": "200",
+    "produtividade_acessar_canal": "60",
+    "tempo_encher_canal": "2.14",
+    "quantidade_canais": "500",
+    "tamanho_canal": "2000",
+    "produtividade_backuploop": "60",
+    "quantidade_canais_2": "500",
+    "tamanho_canal_2": "1000",
+    "produtividade_backuploop_2": "60"
+}

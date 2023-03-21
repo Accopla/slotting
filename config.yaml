@@ -1,0 +1,17 @@
+credentials:
+  usernames:
+    julio:
+      email: juliooliveira@gladlog.com.br
+      name: Julio Cesar
+      password: '$2b$12$6jC0q.5s20uenmWYRS52nerCQT9Vj.h6j2Q5bwGrPXLhPDpbBNEFy' # To be replaced with hashed password
+    abel:
+      email: abelrocha@gladlog.com.br
+      name: Abel Rocha
+      password: '$2b$12$nW/li6JUA41MYkz12p8OKewtyZb2HKcswZj7VJ5/vBlnRNohFyl7S' # To be replaced with hashed password
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+preauthorized:
+  emails:
+  - juliooliveira@gladlog.com.br
