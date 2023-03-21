@@ -64,7 +64,7 @@ if selected == "Balanceamento":
     df4 = pd.read_sql(sql4,conn)
     st.write("Desvio médio entre estações: " + str(df4["desvio_medio"].values[0]))
 
-    # Fazendo o gráfico do balanceamento entre estaçoes
+    # Fazendo o gráfico do balanceamento entre estaçoes 654987321
     st.subheader("Balanceamento entre Estações")
     if Medida_Selecionada == "Acessos":
         fig2 = go.Figure(data=[
