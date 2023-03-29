@@ -33,7 +33,7 @@ df_endereco.to_sql('erp_endereco', con=engine, if_exists='replace')
 
 # Atualização de Saídas
 #hn_saidas = conn.table('balanceamento/CVD_ZTBLMM1032_Balanceamento', schema='_SYS_BIC')
-hn_saidas =  dataframe.DataFrame(conn, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Balanceamento" where WERKS= \'' + Centro +'\' and ERDAT BETWEEN \'20220701\' AND \'20220701\' ')
+hn_saidas =  dataframe.DataFrame(conn, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Balanceamento" where WERKS= \'' + Centro +'\' and ERDAT BETWEEN \'20220301\' AND \'20220315\' ')
 df_saidas = hn_saidas.head().collect()
 df_saidas.to_sql('erp_saidas', con=engine, if_exists='replace')
 
