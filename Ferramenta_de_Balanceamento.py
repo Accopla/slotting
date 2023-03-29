@@ -17,7 +17,7 @@ from hana_ml import dataframe
 
 st.set_page_config(page_title="Ferramenta_de_Balanceamento")
 #CARREGAR HASHED PASSWORDS
-# passwords = ["123", "123"]
+# passwords = ["123", "123"]  123
 # hashed_passwords = stauth.Hasher(passwords).generate()
 
 with open('config.yaml') as file:
