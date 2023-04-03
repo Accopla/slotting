@@ -5,7 +5,7 @@ import Ferramenta_de_Balanceamento as fb
 
 # Executar a conexao com o servidor SQLSERVER
 conn = psycopg2.connect(
-    host = "192.168.15.59",
+    host = "10.41.12.34",
     user = "glad",
     password = "Gl@d2023",
     dbname = "glad")
