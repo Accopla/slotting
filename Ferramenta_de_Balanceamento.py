@@ -14,6 +14,8 @@ import yaml
 import jwt
 from datetime import timedelta
 from hana_ml import dataframe
+from sqlalchemy import create_engine
+import psycopg2
 
 st.set_page_config(page_title="Ferramenta_de_Balanceamento")
 #CARREGAR HASHED PASSWORDS
@@ -102,9 +104,9 @@ if authenticator_status:
         form2 = st.form("Parametros_Base")
     with form2:
         # Verificar se tem Aframe
-        sql1 = "SELECT \"centro\" FROM public.erp_centro"
-        df1 = pd.read_sql(sql1,conn)
-        filial = st.selectbox("Filial:",df1["centro"].values)
+        #sql1 = "SELECT \"Centro\" FROM public.erp_centro order by \"Centro\""
+        #df1 = pd.read_sql(sql1,conn)
+        filial = 'MG11' #st.selectbox("Filial:",df1["Centro"].values)
         d = timedelta(days=7)
         data_ini = st.date_input("Data Inicial:",date.today() - d)
         data_fin = st.date_input("Data Final:",date.today())
@@ -115,36 +117,43 @@ if authenticator_status:
             #Dataframe.df_BI1 = pd.read_sql(sql_BI1,conn)
             #Dataframe(pd.read_sql(sql_BI1,conn))
 
-            st.write("Importando dados do ERP")
+            st.write("Conectando ao ERP")
             # Conexão com SAP
             conh = dataframe.ConnectionContext(address='10.41.15.47',
                                                port=30515,
                                                user='SQL_POWER_BI',
                                                password='wed213EWQewd@#53da')
-            
+            st.write("Conectando ao PG")
+            # Conexão com Postgres
+            engine = create_engine('postgresql://glad@10.41.12.34:5432/glad')
+
+            st.write("Importando filiais")
             # Atualização de Filiais
             hn_centro =  dataframe.DataFrame(conh, 'SELECT distinct "Centro" FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Material"')
             df_centro = hn_centro.collect()
             df_centro.to_sql('erp_centro', con=engine, if_exists='replace')
 
+            st.write("Importando Materiais")
             # Atualização de Materiais
-            Centro = st.selectbox("Filial:",df1["Centro"].values)
-            hn_material =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Material" where "Centro"= \'' + Centro +'\'')
-            df_material = hn_material.head().collect()
-            df_material.to_sql('erp_material', con=engine, if_exists='replace')
+            #hn_material =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Material" where "Centro"= \'' + filial +'\'')
+            #df_material = hn_material.collect()
+            #df_material.to_sql('erp_material', con=engine, if_exists='replace')
 
+            st.write("Importando Endereços")
             ## Atualização de Endereços
-            hn_endereco =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Endereco" where WERKS= \'' + Centro +'\'')
-            df_endereco = hn_endereco.head().collect()
-            df_endereco.to_sql('erp_endereco', con=engine, if_exists='replace')
+            #hn_endereco =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Endereco" where WERKS= \'' + filial +'\'')
+            #df_endereco = hn_endereco.collect()
+            #df_endereco.to_sql('erp_endereco', con=engine, if_exists='replace')
 
+            st.write("Importando Saidas")
             ## Atualização de Saídas 
-            hn_saidas =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Balanceamento" where WERKS= \'' + Centro +'\' and ERDAT BETWEEN \'20220701\' AND \'20220701\' ')
-            df_saidas = hn_saidas.head().collect()
-            df_saidas.to_sql('erp_saidas', con=engine, if_exists='replace')
+            #hn_saidas =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Balanceamento" where WERKS= \'' + filial +'\' and ERDAT BETWEEN \'20220701\' AND \'20220701\' ')
+            #df_saidas = hn_saidas.collect()
+            #df_saidas.to_sql('erp_saidas', con=engine, if_exists='replace')
             conh.close()
 
             sp_erp_import = 'prc_erp_import'
+            st.write("Finalizando Importação")
             param_procedure = (filial, data_ini, data_fin)
             sql.executar_procedure(sp_erp_import,param_procedure,conn)
              
