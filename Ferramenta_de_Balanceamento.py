@@ -114,12 +114,14 @@ if authenticator_status:
             #sql_BI1 = "SELECT * FROM VW_BI_UNIDADES_DATA_AREA_PICKING"
             #Dataframe.df_BI1 = pd.read_sql(sql_BI1,conn)
             #Dataframe(pd.read_sql(sql_BI1,conn))
+
             st.write("Importando dados do ERP")
             # Conexão com SAP
             conh = dataframe.ConnectionContext(address='10.41.15.47',
                                                port=30515,
                                                user='SQL_POWER_BI',
                                                password='wed213EWQewd@#53da')
+            
             # Atualização de Filiais
             hn_centro =  dataframe.DataFrame(conh, 'SELECT distinct "Centro" FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Material"')
             df_centro = hn_centro.collect()
