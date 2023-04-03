@@ -114,14 +114,12 @@ if authenticator_status:
             #sql_BI1 = "SELECT * FROM VW_BI_UNIDADES_DATA_AREA_PICKING"
             #Dataframe.df_BI1 = pd.read_sql(sql_BI1,conn)
             #Dataframe(pd.read_sql(sql_BI1,conn))
-            
             st.write("Importando dados do ERP")
             # Conexão com SAP
             conh = dataframe.ConnectionContext(address='10.41.15.47',
                                                port=30515,
                                                user='SQL_POWER_BI',
                                                password='wed213EWQewd@#53da')
-
             # Atualização de Filiais
             hn_centro =  dataframe.DataFrame(conh, 'SELECT distinct "Centro" FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Material"')
             df_centro = hn_centro.collect()
@@ -138,7 +136,7 @@ if authenticator_status:
             df_endereco = hn_endereco.head().collect()
             df_endereco.to_sql('erp_endereco', con=engine, if_exists='replace')
 
-            ## Atualização de Saídas
+            ## Atualização de Saídas 
             hn_saidas =  dataframe.DataFrame(conh, 'SELECT * FROM _SYS_BIC."balanceamento/CVD_ZTBLMM1032_Balanceamento" where WERKS= \'' + Centro +'\' and ERDAT BETWEEN \'20220701\' AND \'20220701\' ')
             df_saidas = hn_saidas.head().collect()
             df_saidas.to_sql('erp_saidas', con=engine, if_exists='replace')
